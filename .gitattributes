@@ -1,0 +1,14 @@
+* text=auto
+*.html text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.cjs text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+*.pdf binary
+*.png binary
+*.jpg binary
+# Preserve upstream license text verbatim, including its trailing spaces.
+index.html whitespace=-blank-at-eol
+PDF-THIRD-PARTY-NOTICES.txt whitespace=-blank-at-eol

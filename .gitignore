@@ -1,0 +1,31 @@
+# Dependencies and generated files
+node_modules/
+validation/
+test-results/
+playwright-report/
+coverage/
+_site/
+*.log
+*.zip
+
+# Historical walkthrough scripts for a retired UI (not the current test suite)
+tests/historical/
+
+# Python and local tooling
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.cache/
+
+# Local/private configuration — never commit credentials or personal documents
+.env
+.env.*
+!.env.example
+uploads/
+*.pem
+*.key
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -1,0 +1,8 @@
+const {BASE_URL,ARTIFACT_DIR,artifact}=require('./config.cjs');
+const {chromium}=require('playwright');const assert=require('node:assert/strict');
+(async()=>{const b=await chromium.launch(),p=await b.newPage();p.on('dialog',d=>d.accept());await p.goto(BASE_URL);await p.waitForFunction(()=>!document.querySelector('#go').disabled);
+for(const height of [3500,300]){const fixture=Buffer.from(await p.evaluate(h=>{const c=document.createElement('canvas');c.width=540;c.height=h;return c.toDataURL().split(',')[1];},height),'base64');await p.locator('#file').setInputFiles({name:'fixture.png',mimeType:'image/png',buffer:fixture});await p.waitForFunction(()=>document.querySelector('#status').textContent.startsWith('Screenshot loaded'));
+for(const viewport of [{width:1440,height:1100},{width:390,height:844},{width:320,height:568}]){await p.setViewportSize(viewport);if(await p.locator('.setup-panel').isHidden())await p.locator('#mobileSetup').click();
+for(const [ratio,w,h] of [['4:5',1080,1350],['1:1',1080,1080],['9:16',1080,1920]]){await p.locator(`[data-ratio="${ratio}"]`).click();await p.locator('#zoom').fill('115');for(const selector of ['#editorCanvas','.thumb-select','.thumb canvas']){const r=await p.locator(selector).first().boundingBox();assert(Math.abs(r.width/r.height-w/h)<.006,`${selector} ${ratio}`);}assert.deepEqual(await p.locator('#editorCanvas').evaluate(c=>[c.width,c.height]),[w,h]);assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));assert.equal(await p.locator('.source-panel,#sourceScroll').count(),0);}}
+}
+await b.close();console.log('PASS: editor/thumbnail/PNG ratios, full and short originals, zoom, desktop and small-phone widths; no Source viewport.');})().catch(e=>{console.error(e);process.exit(1)});

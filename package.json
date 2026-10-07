@@ -1,0 +1,24 @@
+{
+  "name": "newsgram",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A static, single-file Instagram highlight editor for webpages, images and PDFs.",
+  "license": "UNLICENSED",
+  "engines": { "node": ">=20.19.0" },
+  "scripts": {
+    "start": "node tools/serve.cjs",
+    "dev": "node tools/serve.cjs",
+    "check": "node tools/check.cjs",
+    "test": "node tools/test.cjs",
+    "test:all": "node tools/test.cjs --all",
+    "test:pdf-loading": "node tools/test.cjs pdf-loading",
+    "screenshots": "node tools/test.cjs --screenshots",
+    "browsers:install": "playwright install chromium webkit",
+    "pdf:embed": "python3 tools/embed-pdf.py ./node_modules/pdfjs-dist"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "pdfjs-dist": "5.4.624",
+    "playwright": "1.61.1"
+  }
+}
