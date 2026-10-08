@@ -22,8 +22,8 @@ are bundled inside the HTML; no CDN or extra runtime files are needed.
 5. At the end, Add starts at the last position that can fill a frame and says
    **“End reached—adjust upward if needed.”** Very short originals are padded white.
    Up to 20 highlights are supported; Add is disabled at the limit.
-6. Select a thumbnail or use the highlight picker. Drag the **⠿ handles** to reorder,
-   or use **Reorder → Move earlier / Move later**. Export follows that order.
+6. Select a thumbnail to edit that highlight. Drag the **⠿ handles** to reorder,
+   or focus a handle and press the ← / → arrow keys. Export follows that order.
 7. Download a PNG, share supported files, or download the entire carousel as ZIP.
 
 **Settings** lives in the carousel header, not among the individual-highlight
@@ -81,7 +81,7 @@ controls move into a bottom dock above **Add highlight · Cut · Undo / Redo · 
 The **＋ Add highlight** tile remains in **Highlights** too; both entry points perform
 the same immediate addition. Settings stays in the carousel header.
 
-- The highlight picker and framing tools stay together in the editor header.
+- The highlight label stays in the editor header; framing sliders move into the bottom dock.
 - Pinch to zoom keeps the point between your fingers anchored where bounds allow.
   One-finger drag pans; sliders remain available. Each gesture is one undo step.
 - Lock framing protects the selected highlight. Adding another highlight still works
@@ -104,7 +104,7 @@ are numbered in posting order. Multi-file sharing is offered only if
   tap**. The next filename advances after each download; there is no automatic
   multi-download burst. Files may land in Downloads/Files rather than Photos.
 - **Download entire carousel as ZIP** is always an alternative. Desktop also has
-  **Share / save**, the individual PNG button and Download ZIP.
+  **Export**, the individual PNG button and Download ZIP.
 - Cancelling native sharing neither downloads files nor changes the carousel.
   Changing scope or closing the dialog invalidates any unfinished preparation.
 
@@ -155,6 +155,8 @@ line boundaries and attribution before posting.
 - Shortcuts: Ctrl/⌘ Z = undo; Ctrl/⌘ Shift Z = redo (Ctrl Y also works).
 - **Reset framing** returns the selected highlight to its framing at creation (or
   duplication), clamped to current source bounds. Reset is itself undoable.
+- **Remove** deletes the selected highlight, but the last highlight is kept so the
+  carousel is never empty. Removing is undoable.
 - When the canvas has focus: arrow keys nudge; Shift + arrow keys make finer
   adjustments; Enter previews. Escape closes the preview.
 - Undo history is in memory, up to 60 steps. It resets on reload or a new capture.
