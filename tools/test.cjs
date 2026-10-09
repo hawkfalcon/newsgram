@@ -3,7 +3,7 @@ const { spawn } = require('node:child_process');
 const path = require('node:path');
 const { startServer } = require('./serve.cjs');
 const root = path.resolve(__dirname, '..');
-const core = ['highlights-section', 'browser', 'mobile', 'cuts', 'touch', 'ratios', 'setup', 'pdf'];
+const core = ['highlights-section', 'browser', 'mobile', 'cuts', 'touch', 'ratios', 'setup', 'pdf', 'marking'];
 const allowed = new Set([...core, 'pdf-loading', 'screenshots', 'pdf-screenshots']);
 const arg = process.argv[2];
 let suites;
@@ -16,10 +16,23 @@ let child, server;
 async function run(name, env) {
   console.log(`\n--- ${name} ---`);
   return new Promise((resolve, reject) => {
-    child = spawn(process.execPath, [path.join(root, 'tests', name + '.cjs')], { cwd: root, env, stdio: 'inherit' });
+    let output = '';
+    const remember = chunk => { output = (output + chunk.toString()).slice(-8000); };
+    child = spawn(process.execPath, [path.join(root, 'tests', name + '.cjs')], { cwd: root, env, stdio: ['inherit', 'pipe', 'pipe'] });
+    child.stdout.on('data', chunk => { process.stdout.write(chunk); remember(chunk); });
+    child.stderr.on('data', chunk => { process.stderr.write(chunk); remember(chunk); });
     const timer = setTimeout(() => { console.error(`${name}: exceeded 180 seconds`); child.kill('SIGKILL'); }, 180000);
-    child.once('error', e => { clearTimeout(timer); reject(e); });
-    child.once('exit', (code, signal) => { clearTimeout(timer); child = null; code === 0 ? resolve() : reject(Error(`${name} failed (${signal || code})`)); });
+    child.once('error', e => { clearTimeout(timer); child = null; reject(e); });
+    child.once('close', (code, signal) => {
+      clearTimeout(timer); child = null;
+      if (code === 0) { resolve(); return; }
+      const details = output.trim().split(/\r?\n/).slice(-14).join(' | ');
+      if (env.GITHUB_ACTIONS === 'true') {
+        const message = `${name}: ${details || `exited with ${signal || code}`}`.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
+        console.error(`::error title=Browser test failure::${message}`);
+      }
+      reject(Error(`${name} failed (${signal || code})`));
+    });
   });
 }
 for (const sig of ['SIGINT', 'SIGTERM']) process.once(sig, () => { child?.kill(sig); server?.closeAllConnections(); server?.close(); process.exit(130); });

@@ -28,8 +28,16 @@ python3 -m http.server 8080 --bind 0.0.0.0
 
 ### Use it
 
-1. Capture an article URL, or upload an image/PDF.
-2. Scroll, drag, zoom and cut in the single highlight editor.
+1. Capture an article URL, or upload an image/PDF. **Article only** may omit the
+   publisher logo; choose **Whole webpage** for the masthead, or keep **Include publisher
+   logo** on to add a detected logo above the article. **Hide social buttons** is on by
+   default for cleaner captures; social post embeds are left visible. Menus and dialogs
+   are not automatically closed, so dismiss them on the source page before capture if needed.
+2. Scroll and drag to frame; zoom from 1–150% with the 25/50/100/150% presets or
+   Fit source. Fit centers the complete capture (or cut layout), going below 25% for
+   long sources when needed. Mark text with a color and brush size, then cut if needed.
+   A dashed screenshot boundary appears only in the editor where white margins are
+   visible; it is not part of previews or exported images.
 3. Click **＋ Add highlight** in the **Highlights** thumbnail strip. A new highlight
    immediately starts after the selected excerpt, accounting for its zoom and cuts.
 4. Reorder and export individual PNGs or a carousel ZIP. Mobile also offers supported
@@ -91,7 +99,7 @@ npm run check
 npm run test:all
 ```
 
-`npm run test:all` starts its own local server on a free port, runs all **nine** active
+`npm run test:all` starts its own local server on a free port, runs all **ten** active
 suites, and shuts the server down. It does not consume Microlink requests. On Linux,
 Playwright's `--with-deps` may need system-package privileges.
 
@@ -99,7 +107,7 @@ Playwright's `--with-deps` may need system-package privileges.
 | --- | --- |
 | `npm start` / `npm run dev` | Serve the app on port 8080 |
 | `npm run check` | Check inline app/PDF scripts and JS tooling syntax |
-| `npm test` | Eight Chromium suites |
+| `npm test` | Nine Chromium suites |
 | `npm run test:all` | Chromium suites plus PDF loader checks in Chromium/WebKit |
 | `npm run test:pdf-loading` | PDF worker/CSP/sandbox compatibility checks |
 | `npm run screenshots` | Generate synthetic-data screenshots in `validation/` |
