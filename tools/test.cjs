@@ -3,7 +3,7 @@ const { spawn } = require('node:child_process');
 const path = require('node:path');
 const { startServer } = require('./serve.cjs');
 const root = path.resolve(__dirname, '..');
-const core = ['highlights-section', 'browser', 'mobile', 'cuts', 'touch', 'ratios', 'setup', 'pdf'];
+const core = ['highlights-section', 'browser', 'mobile', 'cuts', 'touch', 'ratios', 'setup', 'pdf', 'marking'];
 const allowed = new Set([...core, 'pdf-loading', 'screenshots', 'pdf-screenshots']);
 const arg = process.argv[2];
 let suites;

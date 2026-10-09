@@ -11,24 +11,35 @@ are bundled inside the HTML; no CDN or extra runtime files are needed.
    Webpage appearance and Instagram shape settings come before capture. The default
    is a 540px webpage and a 4:5 (1080 × 1350) output frame.
 2. The first highlight opens directly in the editor. **Drag to pan**, scroll to move
-   up/down, or use Position and its nudges. Zoom each highlight from **100–150%**.
+   up/down, or use Position and its nudges. Zoom each highlight from **1–150%** with
+   the slider or **25%, 50%, 100%, 150%** presets. Below 100%, the screenshot shrinks
+   and the white canvas shows around it. **Fit source** centers the complete capture
+   (including its cut layout), automatically going below 25% for long captures; 1% is
+   the minimum, so an exceptionally long source may still not fit all at once. A subtle
+   dashed boundary appears in the editor when white margins are visible, but never in
+   previews, thumbnails or exported images.
 3. The **Highlights** section contains the thumbnail strip and the **＋ Add highlight**
    tile. Clicking it immediately appends and selects a new highlight starting at the
    bottom of the current selected excerpt, accounting for its zoom and cuts.
    There is no separate Source view, selection draft, or confirmation step.
-4. Adjust the new frame in the same editor. **Undo** removes an accidental addition;
+4. Tap **🖍 Mark text**, choose yellow, pink, mint or blue and set the marker size
+   (12–64 source pixels, default 28), then drag across screenshot text. Each stroke
+   keeps its own color and size, stays anchored to the source image and appears in
+   previews, thumbnails, saved sessions and PNG/ZIP exports. **Undo stroke** removes
+   just the latest mark; the main Undo/Redo and **Clear marks** are also available.
+5. Adjust the new frame in the same editor. **Undo** removes an accidental addition;
    **Redo** restores it. Existing highlights never get reframed by Add. New highlights
    start at 100% zoom with no cuts; **Duplicate** is for an exact independent copy.
-5. At the end, Add starts at the last position that can fill a frame and says
+6. At the end, Add starts at the last position that can fill a frame and says
    **“End reached—adjust upward if needed.”** Very short originals are padded white.
    Up to 20 highlights are supported; Add is disabled at the limit.
-6. Select a thumbnail to edit that highlight. Drag the **⠿ handles** to reorder,
+7. Select a thumbnail to edit that highlight. Drag the **⠿ handles** to reorder,
    or focus a handle and press the ← / → arrow keys. Export follows that order.
-7. Download a PNG, share supported files, or download the entire carousel as ZIP.
+8. Download a PNG, share supported files, or download the entire carousel as ZIP.
 
 **Settings** lives in the carousel header, not among the individual-highlight
 controls. It reopens capture settings and output ratios. The original bitmap stays
-untouched behind the scenes for framing, cuts, undo and session saving.
+untouched behind the scenes for framing, cuts, marker strokes, undo and session saving.
 
 ## PDF upload — continuous source
 1. Choose **Upload image / PDF**, select a PDF, and confirm replacement if you already
@@ -41,9 +52,9 @@ untouched behind the scenes for framing, cuts, undo and session saving.
    embedded rotations are honored. Scanned pages remain images—no OCR/text extraction.
 4. Frame the document directly in the editor using drag, scroll and Position.
    Page metadata remains saved, but there is no separate PDF/source viewport.
-5. Use the same one-tap **Add highlight**, framing, per-highlight zoom, cuts,
-   direct cut adjustment, reorder, Undo/Redo and PNG/carousel export tools. A highlight
-   can span a page boundary; remove unwanted margins with the normal cut tool.
+5. Use the same one-tap **Add highlight**, framing, 1–150% zoom presets and Fit source,
+   color/size highlighter, cuts, direct cut adjustment, reorder, Undo/Redo and PNG/carousel
+   export tools. A highlight can span a page boundary; remove unwanted margins with the normal cut tool.
 
 ### PDF privacy, compatibility and limits
 - **Local processing:** PDF.js 5.4.624 and its worker are embedded as classic-script factories; standard
@@ -77,13 +88,18 @@ untouched behind the scenes for framing, cuts, undo and session saving.
 ## Mobile workspace
 The app uses one editor on both desktop and mobile—no Source/Edit tabs. On screens
 up to 700px wide, and touch/coarse-pointer screens up to 1000px, shared Position/Zoom
-controls move into a bottom dock above **Add highlight · Cut · Undo / Redo · Export**.
+controls move into a bottom dock above **Add highlight · Cut · Mark · Undo / Redo · Export**.
 The **＋ Add highlight** tile remains in **Highlights** too; both entry points perform
 the same immediate addition. Settings stays in the carousel header.
 
 - The highlight label stays in the editor header; framing sliders move into the bottom dock.
+  The dock also includes **🖍 Mark** for quick access to the highlighter.
 - Pinch to zoom keeps the point between your fingers anchored where bounds allow.
-  One-finger drag pans; sliders remain available. Each gesture is one undo step.
+  One-finger drag pans; the dock keeps the zoom slider, presets and Fit source available.
+  Fit can go below 25% for long captures (down to 1%); white canvas and its editor-only
+  dashed source boundary remain outside exported pixels. Touch drawing uses the selected
+  marker color/size, and Undo stroke is available in the highlighter options. Each framing
+  gesture is one undo step.
 - Lock framing protects the selected highlight. Adding another highlight still works
   and does not change the locked one. Global ratio changes still apply to all frames.
 - Cutting opens a focused screen with large handles, sliders, Cancel/Save actions
@@ -137,7 +153,7 @@ is made that a physical iOS/Android picker or Instagram posting flow was tested.
 Cuts are full-width horizontal sections in the selected highlight only. The source
 image and other highlights do not change. Thumbnails, previews, PNGs and ZIPs render
 that highlight's stitched result. Duplication makes an independent copy of its cuts.
-Reset framing preserves cuts; Restore all in the cut manager removes them.
+Reset framing preserves cuts and marks; Restore all in the cut manager removes cuts only.
 
 The original bitmap is never stitched or deleted. Only the selected highlight's
 rendered view changes. Positions in the editor refer to its shortened, stitched image. Cut boundaries remain anchored
@@ -150,7 +166,7 @@ divider is app-added (not publisher text). Check the remaining excerpt's meaning
 line boundaries and attribution before posting.
 
 ## Editing safety
-- **Undo / Redo** covers framing, zoom, ratio changes, add/remove, reset, reorder, cuts and restoring cut sections.
+- **Undo / Redo** covers framing, zoom, ratio changes, marker strokes/clear, add/remove, reset, reorder, cuts and restoring cut sections.
   Mouse/touch drags are one edit; rapid wheel/nudge/slider edits are grouped.
 - Shortcuts: Ctrl/⌘ Z = undo; Ctrl/⌘ Shift Z = redo (Ctrl Y also works).
 - **Reset framing** returns the selected highlight to its framing at creation (or
@@ -164,8 +180,9 @@ line boundaries and attribution before posting.
   captures leave existing work untouched. The current cached capture preserves edits.
 
 ## Session saving
-The current source image, highlight positions, zoom, order, output ratio, selection
-cuts, omission-divider preferences, framing locks and capture settings are saved automatically in **IndexedDB in this browser**.
+The current source image, highlight positions, zoom, order, output ratio, marker strokes,
+selection cuts, omission-divider preferences, framing locks and capture settings are
+saved automatically in **IndexedDB in this browser**.
 They restore after reload without another screenshot-service request. Check the
 save indicator in the header before closing the tab.
 
@@ -190,12 +207,19 @@ screenshot; changing settings does not silently replace your highlights.
 - **540px browser width** is the default; 430, 768 and 1080 are also available.
   Width triggers the publisher's responsive layout rather than enlarging a desktop view.
 - **Article only** screenshots the first visible `article` element with its
-  existing fonts and colors. It may include related content. Choose **Whole webpage**
-  if the site has no article element or puts the headline outside it.
+  existing fonts and colors. It may include related content and normally excludes the
+  masthead. **Include publisher logo** (on by default) copies a detected header logo
+  above the article without the rest of the navigation; turn it off if the wrong logo
+  is selected. Choose **Whole webpage** to include the full masthead.
 - **Keep photos above or below the text** removes common left/right image wrapping while retaining
   fonts and colors. Disable it for the site's untouched image wrapping.
 - **Give images time to load** requests eager images and original WordPress image files
   when supplied by the site, then waits 5 seconds. Some assets may still fail to load.
+- Site menus and dialogs are not automatically closed. Dismiss them on the source page
+  before capture if they should not appear in the screenshot.
+- **Hide social buttons** (on by default) removes recognizable share widgets and
+  social-network buttons from the webpage capture. Posts embedded in the article remain.
+  Turn it off to keep share controls visible.
 - Changed settings require clicking **Capture article**. **Retake screenshot** bypasses
   the matching in-session cache and requests a new service screenshot.
 
@@ -212,8 +236,9 @@ Framing, zooming, cutting, reordering, previews, saving and exports make no capt
 
 A highlight is a rectangular pixel crop, optionally stitched around cut sections—not reflowed text. Check the crop edges:
 they may cut through a line or photo. Ratio changes apply to every highlight, keeping
-its position/zoom where possible. Crops are clamped to the source; short sources
-are padded white. Very large source images can exceed a device's memory limits.
+its position/zoom where possible. Crops are clamped to the source; below 100% zoom,
+the source can be framed smaller than the output and the surrounding canvas stays white.
+Short sources are padded white. Very large source images can exceed a device's memory limits.
 
 ZIP export uses a built-in ZIP writer with CRC checksums and uncompressed entries
 (PNGs are already compressed). No CDN library or multiple-download permission is

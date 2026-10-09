@@ -16,12 +16,14 @@ large generated engine block. Keep the footer's third-party notices.
 
 - Screenshot/pixel rendering only; no article text scraping or reconstructed cards.
 - `state.shot.bmp` is the immutable original image. Each highlight owns framing,
-  zoom, cuts, divider preference, lock and initial/reset coordinates.
+  zoom, cuts, marker strokes, divider preference, lock and initial/reset coordinates.
 - `cutLayout`, `sourceToVirtual` and `virtualToSource` translate between original
   source positions and the stitched per-highlight view. Cut ranges stay anchored
   in original source coordinates. Cut adjustments remain cancellable drafts.
-- `paint` is shared by editor, thumbnails and exports. Avoid separate render paths
-  that could make downloaded pixels differ from the preview.
+- `paint` is shared by editor, thumbnails and exports, including marker strokes and
+  white margins below 100% zoom. The dashed screenshot boundary is an editor-only
+  DOM overlay outside the canvas backing store; never draw it through `paint` or include
+  it in thumbnails/exports. Keep exported pixels equal to the canvas preview pixels.
 - Add uses the selected highlight's bottom in original-source coordinates, not the
   previous DOM scroll position. New highlights are independent and start at 100%
   zoom without cuts. At the end, clamp to the last full frame and explain it.
@@ -29,7 +31,17 @@ large generated engine block. Keep the footer's third-party notices.
 - IndexedDB stores one current session per origin. Keep the version-1 restore path
   compatible or add an explicit migration. Never destructively replace a source
   before capture/import has fully succeeded.
+- Zoom is clamped to 1–150%. Quick presets are 25/50/100/150%; Fit source centers
+  the full cut-layout source and may zoom below 25% (but never below 1%). Keep these
+  controls synchronized with the selected frame and framing lock.
+- Each marker stroke owns a color and width; strokes without color from existing version-1
+  sessions remain yellow/default-width. The current brush preference is persisted beside
+  the session, independently from undoable framing/mark snapshots.
 - Mobile controls physically move into the dock; don't add duplicate slider state.
+- URL capture can copy a detected header logo into the Article-only element and hide
+  recognizable sharing widgets. Keep these opt-out DOM scripts conservative and test
+  that unrelated article controls/embeds remain intact. Menus and dialogs are not
+  automatically dismissed.
 - Native sharing is capability-gated. Prepare files before a user taps Share so
   browser activation isn't lost; cancellation must not trigger downloads.
 
@@ -61,17 +73,21 @@ not executed. PDF tests exercise actual rendered documents, not a PDF mock.
 
 ## Testing
 
-`npm test` runs the eight Chromium suites; `npm run test:all` adds PDF loader
-coverage in WebKit. The runner creates an isolated server on an ephemeral port.
+`npm test` runs the nine Chromium suites. The `marking` suite covers style persistence,
+last-stroke undo, presets, long-source Fit and editor-only bounds; `touch` covers phone-sized
+Fit/preset use and touch drawing; `setup` covers capture settings and Article-only logo
+inclusion. `npm run test:all` adds PDF loader
+coverage in WebKit (ten suites total). The runner creates an isolated server on an
+ephemeral port.
 For one suite, use `node tools/test.cjs highlights-section` (or `browser`, `mobile`,
-`cuts`, `touch`, `ratios`, `setup`, `pdf`, `pdf-loading`).
+`cuts`, `touch`, `ratios`, `setup`, `pdf`, `marking`, `pdf-loading`).
 
 To test an existing server, set `NEWSGRAM_TEST_URL` (without a trailing slash).
 `NEWSGRAM_ARTIFACT_DIR` overrides the default `validation/` output directory.
 The test runner deliberately excludes the optional live-service smoke test and
 obsolete tests for the retired Source/draft interface.
 
-CI runs syntax and all nine browser suites on Ubuntu with Node 22, and uploads
+CI runs syntax and all ten browser suites on Ubuntu with Node 22, and uploads
 artifacts even when a test fails. Browser checks are not physical iOS/Android
 validation. Native OS sharing is tested via mocks, not a real Instagram picker.
 
